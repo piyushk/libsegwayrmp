@@ -150,6 +150,7 @@ std::string SegwayStatus::str() {
 }
 
 SegwayRMP::SegwayRMP(InterfaceType interface_type, SegwayRMPType segway_rmp_type) {
+    this->connected = false;
     this->interface_type = interface_type;
     this->segway_type = segway_rmp_type;
     if (this->interface_type == serial) {
