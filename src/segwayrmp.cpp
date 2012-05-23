@@ -251,9 +251,12 @@ void SegwayRMP::connect(OperationalMode operational_mode, ControllerGainSchedule
     
     this->connected = true;
     
+    // Reset all the integrators
+    this->resetAllIntegrators();
+
     // Kick off the read thread
     this->startContinuousRead();
-    
+
     // Lock or unlock balancing depending on the mode.
     if(operational_mode == balanced) {
         this->setBalanceModeLocking(false);
@@ -268,8 +271,6 @@ void SegwayRMP::connect(OperationalMode operational_mode, ControllerGainSchedule
     // Set the scale factor to 1.0 by default
     this->setMaxVelocityScaleFactor();
     
-    // Reset all the integrators
-    this->resetAllIntegrators();
 }
 
 void SegwayRMP::move(float linear_velocity, float angular_velocity) {
