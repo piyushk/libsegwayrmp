@@ -251,11 +251,11 @@ void SegwayRMP::connect(OperationalMode operational_mode, ControllerGainSchedule
     
     this->connected = true;
     
-    // Kick off the read thread
-    this->startContinuousRead();
-
     // Reset all the integrators
     this->resetAllIntegrators();
+
+    // Kick off the read thread
+    this->startContinuousRead();
 
     // Lock or unlock balancing depending on the mode.
     if(operational_mode == balanced) {
@@ -415,12 +415,6 @@ void SegwayRMP::resetAllIntegrators() {
         
         this->rmp_io->sendPacket(packet);
         
-        while(this->segway_status.integrated_left_wheel_position != 0.0 && 
-              this->segway_status.integrated_right_wheel_position != 0.0 &&
-              this->segway_status.integrated_forward_position != 0.0 &&
-              this->segway_status.integrated_turn_position != 0.0) {
-            boost::this_thread::sleep(boost::posix_time::milliseconds(10)); // Check again in 10 ms
-        }
     } catch(std::exception &e) {
         throw(ConfigurationException("Integrators", e.what()));
     }
